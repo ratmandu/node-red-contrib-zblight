@@ -1,0 +1,51 @@
+<script type="text/javascript">
+  RED.nodes.registerType('zblight', {
+    category: 'function',
+    color: '#a6bbcf',
+    defaults: {
+      name: {value:""},
+      bulbtype: {value:""},
+      mac: {value:""}
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "light.png",
+    label: function() {
+      return this.name||"zblight";
+    }
+  });
+</script>
+
+<script type="text/x-red" data-template-name="zblight">
+    <div class="form-row">
+      <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+      <input type="text" id="node-input-name" placeholder="Name" />
+    </div>
+    <div class="form-row">
+      <label for="node-input-bulbtype"><i class="fa fa-lightbulb-o"></i> Bulb Type</label>
+      <select id="node-input-bulbtype" style='width:70%'>
+        <option value="GE">GE Link</option>
+        <option value="CREE">Cree Connected</option>
+        <option value="HUE">Philips Hue</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <label for="node-input-mac"><i class="icon-globe"></i> MAC</label>
+      <input type="text" id="node-input-mac" placeholder="Mac Address" />
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="zblight">
+  <p>
+  A simple node which creates XBEE series 2 API packets to control zigbee based smart bulbs
+  </p>
+  <p>
+  This has been tested with the following bulbs:<br />
+  <ul>
+    <li>GE Link</li>
+    <li>Cree Connected</li>
+    <li>Philips Hue White</li>
+  </ul>
+  Any other bulbs would need to be added, unless they use the same zigbee endpoint as the above bulbs<br />
+  </p>
+</script>
