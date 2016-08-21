@@ -32,7 +32,7 @@ The ATAP=1 also ensures that the xbee is placed into API mode.
 
 ## Usage
 ![flow](flow.png)
-![mqtt-flow](mqtt-flow)
+![mqtt-flow](mqtt-flow.png)
 The node generates an API packet to be sent to the xbee module. You will need to configure the zblight node with the MAC address of the bulb you want to control, and the type of bulb you want to control.
 Control of the bulbs is done fairly simply, Send either a number between 0 and 255 to dim, or "on"/"off" in the payload of the message connected to the input of the node. The node will automatically figure out if it needs to send a level packet to dim, or an on/off packet to turn the bulb on or off. If you dim a bulb, then turn it off, the next time you turn it on, it will be at the same brightness level.
 
