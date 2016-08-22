@@ -25,6 +25,8 @@ module.exports = function(RED) {
       endpoint = 0x0A;
     } else if (this.bulbtype.toLowerCase() == "hue") {
       endpoint = 0x0B;
+    } else if (this.bulbtype.toLowerCase() == "lightify") {
+      endpoint = 0x03;
     }
 
     var xbeeapi = require('xbee-api');
@@ -46,8 +48,10 @@ module.exports = function(RED) {
         lightPayload = [0x01, 0x00, 0x02, 0x00, 0x10];
         outputCluster = 0x0006;
       } else if ((msg.payload >= 0) && (msg.payload <= 255)) {
-        lightPayload = [0x01, 0x00, 0x04, msg.payload, 0x00, 0x00, 0x00, 0x10];
+        lightPayload = [0x01, 0x00, 0x04, msg.payload, 0x10, 0x27, 0x00, 0x10];
         outputCluster = 0x0008;
+      } else if ((msg.payload >= 2700) && (msg.payload <= 6500)) {
+
       }
 
       var frame_obj = {
