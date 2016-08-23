@@ -48,21 +48,21 @@ module.exports = function(RED) {
         lightPayload = [0x01, 0x00, 0x02, 0x00, 0x10];
         outputCluster = 0x0006;
       } else if ((msg.payload >= 0) && (msg.payload <= 255)) {
-        lightPayload = [0x01, 0x00, 0x04, msg.payload, 0x00, 0x00, 0x00, 0x10];
+        lightPayload = [0x01, 0x00, 0x04, msg.payload, 0x10, 0x00, 0x10];
         outputCluster = 0x0008;
       } else if ((msg.payload >= 2700) && (msg.payload <= 6500)) {
         var temp = (1000000/msg.payload);
-	var tmpArray = new Uint16Array(1);
-	tmpArray[0] = temp;
-	tmpArray = new Uint8Array(tmpArray.buffer);
+        var tmpArray = new Uint16Array(1);
+        tmpArray[0] = temp;
+        tmpArray = new Uint8Array(tmpArray.buffer);
         lightPayload = [0x01, 0x00, 0x0A, tmpArray[0], tmpArray[1], 0x10, 0x00, 0x10];
         outputCluster = 0x0300;
       } else if (msg.payload.toString().includes(",")) {
-	var values = msg.payload.split(",");
-	var hue = parseInt(values[0]);
-	var sat = parseInt(values[1]);
-	lightPayload = [0x01, 0x00, 0x06, hue, sat, 0x00, 0x00, 0x10];
-	outputCluster = 0x0300;
+        var values = msg.payload.split(",");
+        var hue = parseInt(values[0]);
+        var sat = parseInt(values[1]);
+        lightPayload = [0x01, 0x00, 0x06, hue, sat, 0x10, 0x00, 0x10];
+        outputCluster = 0x0300;
       }
 
       var frame_obj = {
