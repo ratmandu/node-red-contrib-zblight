@@ -79,7 +79,6 @@ module.exports = function(RED) {
         data: lightPayload
       }
       msg.payload = xbee.buildFrame(frame_obj);
-      node.log(Buffer(msg.payload));
       node.send(msg);
     });
   }
