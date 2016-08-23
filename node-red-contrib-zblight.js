@@ -48,10 +48,13 @@ module.exports = function(RED) {
         lightPayload = [0x01, 0x00, 0x02, 0x00, 0x10];
         outputCluster = 0x0006;
       } else if ((msg.payload >= 0) && (msg.payload <= 255)) {
-        lightPayload = [0x01, 0x00, 0x04, msg.payload, 0x10, 0x27, 0x00, 0x10];
+        lightPayload = [0x01, 0x00, 0x04, msg.payload, 0x00, 0x00, 0x00, 0x10];
         outputCluster = 0x0008;
       } else if ((msg.payload >= 2700) && (msg.payload <= 6500)) {
-
+        var temp = (1000000/msg.payload);
+        temp = ((temp & 0xFF) << 8) | ((val >> 8) & 0xFF); // swap to little endian
+        lightPayload = [0x01, 0x00, 0x0A, ((temp & 0xFF) << 8), ((temp >> 8) & 0xFF), 0x10, 0x00, 0x10];
+        outputCluster = 0x0300;
       }
 
       var frame_obj = {
