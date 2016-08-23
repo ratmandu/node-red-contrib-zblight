@@ -52,8 +52,10 @@ module.exports = function(RED) {
         outputCluster = 0x0008;
       } else if ((msg.payload >= 2700) && (msg.payload <= 6500)) {
         var temp = (1000000/msg.payload);
-        temp = ((temp & 0xFF) << 8) | ((val >> 8) & 0xFF); // swap to little endian
-        lightPayload = [0x01, 0x00, 0x0A, ((temp & 0xFF) << 8), ((temp >> 8) & 0xFF), 0x10, 0x00, 0x10];
+	var tmpArray = new Uint16Array(1);
+	tmpArray[0] = temp;
+	tmpArray = new Uint8Array(tmpArray.buffer);
+        lightPayload = [0x01, 0x00, 0x0A, tmpArray[0], tmpArray[1], 0x10, 0x00, 0x10];
         outputCluster = 0x0300;
       }
 
@@ -71,7 +73,7 @@ module.exports = function(RED) {
         data: lightPayload
       }
       msg.payload = xbee.buildFrame(frame_obj);
-      node.log(frame_obj);
+      node.log(Buffer(msg.payload));
       node.send(msg);
     });
   }
