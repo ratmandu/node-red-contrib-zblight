@@ -53,6 +53,11 @@ If you dim a bulb, then turn it off, the next time you turn it on, it will be at
 
 ![config](config.png)
 
+You can also do more advanced grouping, by simply connecting a single output node to multiple zblight nodes.
+
+![grouping](grouping.png)
+![ui](ui.png)
+
 In order to figure out the MAC address of the bulbs, as well as making sure the bulb joined your XBEE zigbee coordinator, you can use the Digi XCTU Software discovery mode.
 ![xctu](xctu.png)
 
