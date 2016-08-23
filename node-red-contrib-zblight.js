@@ -57,6 +57,12 @@ module.exports = function(RED) {
 	tmpArray = new Uint8Array(tmpArray.buffer);
         lightPayload = [0x01, 0x00, 0x0A, tmpArray[0], tmpArray[1], 0x10, 0x00, 0x10];
         outputCluster = 0x0300;
+      } else if (msg.payload.toString().includes(",")) {
+	var values = msg.payload.split(",");
+	var hue = parseInt(values[0]);
+	var sat = parseInt(values[1]);
+	lightPayload = [0x01, 0x00, 0x06, hue, sat, 0x00, 0x00, 0x10];
+	outputCluster = 0x0300;
       }
 
       var frame_obj = {
