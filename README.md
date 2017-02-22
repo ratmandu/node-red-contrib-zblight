@@ -70,8 +70,8 @@ If your bulbs do not connect to your network, or if they have been joined to a d
 Currently, the node has been tested with the following bulbs:
 * GE Link
 * Cree Connected
-* Philips Hue White (RGBW bulbs should work, but have not been tested)
+* Philips Hue (Tested with the White Ambiance, Tunable Ambiance, and the RGBW variations)
 * Osram/Sylvania Lightify (White, Tunable White, and RGBW)
 
-Those are the bulbs I currently have, and have been able to test. I will be looking at aquiring more bulbs (including the Philips Hue RGBW bulbs) to add more compatibility.  
+Those are the bulbs I currently have, and have been able to test. I will be looking at aquiring more bulbs to add more compatibility. I also have a Commercial Electric Smart LED Downlight I will be adding support for soon.
 These bulbs all support turning power on and off, as well as dimming with this node. The Osram/Sylvania Lightify (Tunable White and RGBW) bulbs have been tested to work with color temperature, as well as hue/saturation changes.
