@@ -18,17 +18,6 @@ module.exports = function(RED) {
     this.bulbtype = config.bulbtype;
     this.topic = config.topic;
     
-    var endpoint = 0x00;
-    if (this.bulbtype.toLowerCase() == "ge") {
-      endpoint = 0x01;
-    } else if (this.bulbtype.toLowerCase() == "cree") {
-      endpoint = 0x0A;
-    } else if (this.bulbtype.toLowerCase() == "hue") {
-      endpoint = 0x0B;
-    } else if (this.bulbtype.toLowerCase() == "lightify") {
-      endpoint = 0x03;
-    }
-
     var xbeeapi = require('xbee-api');
     var xbee = new xbeeapi.XBeeAPI();
     var node = this;
@@ -54,6 +43,17 @@ module.exports = function(RED) {
           // Get the bulb type from the message.
           this.bulbtype = msg.bulbtype;
         }
+      }
+      
+      var endpoint = 0x00;
+      if (this.bulbtype.toLowerCase() == "ge") {
+        endpoint = 0x01;
+      } else if (this.bulbtype.toLowerCase() == "cree") {
+        endpoint = 0x0A;
+      } else if (this.bulbtype.toLowerCase() == "hue") {
+        endpoint = 0x0B;
+      } else if (this.bulbtype.toLowerCase() == "lightify") {
+        endpoint = 0x03;
       }
       
       if (msg.payload.toString().toLowerCase() == "on") {
