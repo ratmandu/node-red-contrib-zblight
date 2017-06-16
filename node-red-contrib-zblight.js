@@ -15,36 +15,8 @@
 module.exports = function(RED) {
   function zbLightNode(config) {
     RED.nodes.createNode(this, config);
-    
-    // Make sure the topic isn't undefined.
-    if (typeof msg.topic != "undefined") {
-      // If the topic is empty...
-      if (msg.topic === "") {
-        // Use topic from configuration.
-        this.topic = config.topic;
-      } else {
-        // Use topic from message.
-        this.topic = msg.topic;
-      }
-    } else {
-      // Use topic from configuration.
-      this.topic = config.topic;
-    }
-    
-    // Make sure the bulb type isn't undefined.
-    if (typeof msg.bulbtype != "undefined") {
-      // If the bulb type is empty...
-      if (msg.bulbtype === "") {
-        // Use bulb type from configuration.
-        this.bulbtype = config.bulbtype;
-      } else {
-        // Get the bulb type from the message.
-        this.bulbtype = msg.bulbtype;
-      }
-    } else {
-      // Use bulb type from configuration.
-      this.bulbtype = config.bulbtype;
-    }
+    this.bulbtype = config.bulbtype;
+    this.topic = config.topic;
     
     var endpoint = 0x00;
     if (this.bulbtype.toLowerCase() == "ge") {
@@ -65,7 +37,25 @@ module.exports = function(RED) {
 
       var outputCluster = 0x0000;
       var lightPayload = 0;
-
+      
+      // Make sure the topic isn't undefined.
+      if (typeof msg.topic != "undefined") {
+        // If the topic is empty...
+        if (msg.topic !== "") {
+          // Use topic from message.
+          this.topic = msg.topic;
+        }
+      }
+      
+      // Make sure the bulb type isn't undefined.
+      if (typeof msg.bulbtype != "undefined") {
+        // If the bulb type is empty...
+        if (msg.bulbtype !== "") {
+          // Get the bulb type from the message.
+          this.bulbtype = msg.bulbtype;
+        }
+      }
+      
       if (msg.payload.toString().toLowerCase() == "on") {
         lightPayload = [ 0x01, 0x00, 0x01, 0x00, 0x10];
         outputCluster = 0x0006;
