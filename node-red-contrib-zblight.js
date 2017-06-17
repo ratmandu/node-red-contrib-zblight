@@ -15,20 +15,9 @@
 module.exports = function(RED) {
   function zbLightNode(config) {
     RED.nodes.createNode(this, config);
-    this.mac = config.mac;
     this.bulbtype = config.bulbtype;
-
-    var endpoint = 0x00;
-    if (this.bulbtype.toLowerCase() == "ge") {
-      endpoint = 0x01;
-    } else if (this.bulbtype.toLowerCase() == "cree") {
-      endpoint = 0x0A;
-    } else if (this.bulbtype.toLowerCase() == "hue") {
-      endpoint = 0x0B;
-    } else if (this.bulbtype.toLowerCase() == "lightify") {
-      endpoint = 0x03;
-    }
-
+    this.topic = config.topic;
+    
     var xbeeapi = require('xbee-api');
     var xbee = new xbeeapi.XBeeAPI();
     var node = this;
@@ -37,7 +26,36 @@ module.exports = function(RED) {
 
       var outputCluster = 0x0000;
       var lightPayload = 0;
-
+      
+      // Make sure the topic isn't undefined.
+      if (typeof msg.topic != "undefined") {
+        // If the topic is empty...
+        if (msg.topic !== "") {
+          // Use topic from message.
+          this.topic = msg.topic;
+        }
+      }
+      
+      // Make sure the bulb type isn't undefined.
+      if (typeof msg.bulbtype != "undefined") {
+        // If the bulb type is empty...
+        if (msg.bulbtype !== "") {
+          // Get the bulb type from the message.
+          this.bulbtype = msg.bulbtype;
+        }
+      }
+      
+      var endpoint = 0x00;
+      if (this.bulbtype.toLowerCase() == "ge") {
+        endpoint = 0x01;
+      } else if (this.bulbtype.toLowerCase() == "cree") {
+        endpoint = 0x0A;
+      } else if (this.bulbtype.toLowerCase() == "hue") {
+        endpoint = 0x0B;
+      } else if (this.bulbtype.toLowerCase() == "lightify") {
+        endpoint = 0x03;
+      }
+      
       if (msg.payload.toString().toLowerCase() == "on") {
         lightPayload = [ 0x01, 0x00, 0x01, 0x00, 0x10];
         outputCluster = 0x0006;
@@ -68,7 +86,7 @@ module.exports = function(RED) {
       var frame_obj = {
         type: 0x11,
         id: 0x01,
-        destination64: this.mac,
+        destination64: this.topic,
         destination16: "fffe",
         sourceEndpoint: 0xE8,
         destinationEndpoint: endpoint,
@@ -77,7 +95,7 @@ module.exports = function(RED) {
         broadcastRadius: 0x00,
         options: 0x00,
         data: lightPayload
-      }
+      };
       msg.payload = xbee.buildFrame(frame_obj);
       node.send(msg);
     });

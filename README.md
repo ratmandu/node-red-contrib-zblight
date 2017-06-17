@@ -30,6 +30,8 @@ In addition, you will need to make sure the following settings are correct:
 This ensures that the xbee can communicate with Zigbee ZDO/ZCL devices, which is required by the Zigbee Home Automation Profile.
 The ATAP=1 also ensures that the xbee is placed into API mode.
 
+For more information on configuring XBee series 2 radios as ZigBee coordinators see [Digi's knowledge base article](http://knowledge.digi.com/articles/Knowledge_Base_Article/Zigbee-Home-Automation).
+
 ## Usage
 ![flow](flow.png)
 ![mqtt-flow](mqtt-flow.png)
@@ -48,6 +50,8 @@ Control of the bulbs is done fairly simply. Send a message to the node, with one
     * _Sets the color temperature (if supported)_
 * [0-255],[0,255]
     * _Sets the hue and saturation (if supported)_
+
+You can also override the specified bulb type and topic (if any) by sending msg.bulbtype and/or msg.topic to the control. This can help eliminate the need for multiple ZigBee bulb controls.
 
 If you dim a bulb, then turn it off, the next time you turn it on, it will be at the same brightness level.
 
